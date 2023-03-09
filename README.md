@@ -227,17 +227,18 @@ for idxtrain, idxtest in kf.split(X):
   mse_lwr.append(mse(ytest,yhat_lwr))
   mse_boosted_lwr.append(mse(ytest,yhat_blwr))
 print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for BLWR is : '+str(np.mean(mse_boosted_lwr)))
+print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
 The Cross-validated Mean Squared Error for lw_reg is : 261.9172057655939
-The Cross-validated Mean Squared Error for BLWR is : 254.10545711938212
+
+The Cross-validated Mean Squared Error for boosted_lw_reg is : 254.10545711938212
 
 
 Now lets try it with a Tricubic kernel.
 
 ```python
 mse_lwr = []
-mse_blwr = []
+mse_boosted_lwr = []
 kf = KFold(n_splits=10,shuffle=True,random_state = 310)
 scale = StandardScaler()
 for idxtrain, idxtest in kf.split(X):
@@ -250,12 +251,13 @@ for idxtrain, idxtest in kf.split(X):
   yhat_lwr = lw_reg(xtrain,ytrain, xtest,Tricubic,tau=0.9,intercept=True)
   yhat_blwr = boosted_lwr(xtrain,ytrain, xtest,Tricubic,tau=0.9,intercept=True)
   mse_lwr.append(mse(ytest,yhat_lwr))
-  mse_blwr.append(mse(ytest,yhat_blwr))
+  mse_boosted_lwr.append(mse(ytest,yhat_blwr))
 print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for BLWR is : '+str(np.mean(mse_blwr)))
+print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
 The Cross-validated Mean Squared Error for lw_reg is : 261.6978107579365
-The Cross-validated Mean Squared Error for BLWR is : 255.78521768269502
+
+The Cross-validated Mean Squared Error for boosted_lw_reg is : 255.78521768269502
 
 
 
@@ -282,16 +284,17 @@ for idxtrain, idxtest in kf.split(X):
   mse_lwr.append(mse(ytest,yhat_lwr))
   mse_boosted_lwr.append(mse(ytest,yhat_blwr))
 print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for BLWR is : '+str(np.mean(mse_boosted_lwr)))
+print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
 The Cross-validated Mean Squared Error for lw_reg is : 23.03885019369726
-The Cross-validated Mean Squared Error for BLWR is : 21.79843470960379
+
+The Cross-validated Mean Squared Error for boosted_lw_reg is : 21.79843470960379
 
 
 Now lets try it with a Quartic kernel.
 ```python
 mse_lwr = []
-mse_blwr = []
+mse_boosted_lwr = []
 kf = KFold(n_splits=10,shuffle=True,random_state = 310)
 scale = StandardScaler()
 for idxtrain, idxtest in kf.split(X):
@@ -304,12 +307,13 @@ for idxtrain, idxtest in kf.split(X):
   yhat_lwr = lw_reg(xtrain,ytrain, xtest,Quartic,tau=0.9,intercept=True)
   yhat_blwr = boosted_lwr(xtrain,ytrain, xtest,Quartic,tau=0.9,intercept=True)
   mse_lwr.append(mse(ytest,yhat_lwr))
-  mse_blwr.append(mse(ytest,yhat_blwr))
+  mse_boosted_lwr.append(mse(ytest,yhat_blwr))
 print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for BLWR is : '+str(np.mean(mse_blwr)))
+print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
 The Cross-validated Mean Squared Error for lw_reg is : 22.723935874668843
-The Cross-validated Mean Squared Error for BLWR is : 21.254084109129884
+
+The Cross-validated Mean Squared Error for boosted_lw_reg is : 21.254084109129884
 
 
 # References:
