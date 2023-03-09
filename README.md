@@ -65,7 +65,7 @@ def boosted_lwr(x, y, xnew, f=1/3,iter=2,intercept=True):
  
  ```python
  def user_boosted_lwr(x, y, xnew, f=1/3, iter=2, intercept=True, model1_type="Lowess_AG_MD", model2_type="Lowess_AG_MD"):
-    # Define the first model for training the decision tree
+    # Define the first model
     if model1_type == "Lowess_AG_MD":
         model1 = Lowess_AG_MD(f=f, iter=iter, intercept=intercept)
     elif model1_type == "RandomForestRegressor":
@@ -75,7 +75,7 @@ def boosted_lwr(x, y, xnew, f=1/3,iter=2,intercept=True):
     model1.fit(x, y)
     residuals1 = y - model1.predict(x)
     
-    # Define the second model for fitting the residuals
+    # Define the second model
     if model2_type == "Lowess_AG_MD":
         model2 = Lowess_AG_MD(f=f, iter=iter, intercept=intercept)
     elif model2_type == "RandomForestRegressor":
@@ -226,12 +226,12 @@ for idxtrain, idxtest in kf.split(X):
   yhat_blwr = boosted_lwr(xtrain,ytrain, xtest,Epanechnikov,tau=0.9,intercept=True)
   mse_lwr.append(mse(ytest,yhat_lwr))
   mse_boosted_lwr.append(mse(ytest,yhat_blwr))
-print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
+print('The Cross-validated MSE for lw_reg is : '+str(np.mean(mse_lwr)))
+print('The Cross-validated MSE for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
-The Cross-validated Mean Squared Error for lw_reg is : 261.9172057655939
+The Cross-validated MSE for lw_reg is : 261.9172057655939
 
-The Cross-validated Mean Squared Error for boosted_lw_reg is : 254.10545711938212
+The Cross-validated MSE for boosted_lw_reg is : 254.10545711938212
 
 
 Now lets try it with a Tricubic kernel.
@@ -252,12 +252,12 @@ for idxtrain, idxtest in kf.split(X):
   yhat_blwr = boosted_lwr(xtrain,ytrain, xtest,Tricubic,tau=0.9,intercept=True)
   mse_lwr.append(mse(ytest,yhat_lwr))
   mse_boosted_lwr.append(mse(ytest,yhat_blwr))
-print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
+print('The Cross-validated MSE for lw_reg is : '+str(np.mean(mse_lwr)))
+print('The Cross-validated MSE for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
-The Cross-validated Mean Squared Error for lw_reg is : 261.6978107579365
+The Cross-validated MSE for lw_reg is : 261.6978107579365
 
-The Cross-validated Mean Squared Error for boosted_lw_reg is : 255.78521768269502
+The Cross-validated MSE for boosted_lw_reg is : 255.78521768269502
 
 
 
@@ -283,12 +283,12 @@ for idxtrain, idxtest in kf.split(X):
   yhat_blwr = boosted_lwr(xtrain,ytrain, xtest,Epanechnikov,tau=0.9,intercept=True)
   mse_lwr.append(mse(ytest,yhat_lwr))
   mse_boosted_lwr.append(mse(ytest,yhat_blwr))
-print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
+print('The Cross-validated MSE for lw_reg is : '+str(np.mean(mse_lwr)))
+print('The Cross-validated MSE for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
-The Cross-validated Mean Squared Error for lw_reg is : 23.03885019369726
+The Cross-validated MSE for lw_reg is : 23.03885019369726
 
-The Cross-validated Mean Squared Error for boosted_lw_reg is : 21.79843470960379
+The Cross-validated MSE for boosted_lw_reg is : 21.79843470960379
 
 
 Now lets try it with a Quartic kernel.
@@ -308,13 +308,45 @@ for idxtrain, idxtest in kf.split(X):
   yhat_blwr = boosted_lwr(xtrain,ytrain, xtest,Quartic,tau=0.9,intercept=True)
   mse_lwr.append(mse(ytest,yhat_lwr))
   mse_boosted_lwr.append(mse(ytest,yhat_blwr))
-print('The Cross-validated Mean Squared Error for lw_reg is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated Mean Squared Error for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
+print('The Cross-validated MSE for lw_reg is : '+str(np.mean(mse_lwr)))
+print('The Cross-validated MSE for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
 ```
-The Cross-validated Mean Squared Error for lw_reg is : 22.723935874668843
+The Cross-validated MSEfor lw_reg is : 22.723935874668843
 
-The Cross-validated Mean Squared Error for boosted_lw_reg is : 21.254084109129884
+The Cross-validated MSE for boosted_lw_reg is : 21.254084109129884
 
+Let's also compare this one with RandomForest.
+
+```python
+mse_lwr = []
+mse_boosted_lwr = []
+mse_rf = []
+kf = KFold(n_splits=10,shuffle=True,random_state = 310)
+scale = StandardScaler()
+for idxtrain, idxtest in kf.split(X):
+  xtrain = X[idxtrain]
+  ytrain = y[idxtrain]
+  ytest = y[idxtest]
+  xtest = X[idxtest]
+  xtrain = scale.fit_transform(xtrain)
+  xtest = scale.transform(xtest)
+  yhat_lwr = lw_reg(xtrain,ytrain, xtest,Quartic,tau=0.9,intercept=True)
+  yhat_blwr = boosted_lwr(xtrain,ytrain, xtest,Quartic,tau=0.9,intercept=True)
+  model_rf = RandomForestRegressor(n_estimators=100,max_depth=3)
+  model_rf.fit(xtrain,ytrain)
+  yhat_rf = model_rf.predict(xtest)
+  mse_lwr.append(mse(ytest,yhat_lwr))
+  mse_boosted_lwr.append(mse(ytest,yhat_blwr))
+print('The Cross-validated MSE for lw_reg is : '+str(np.mean(mse_lwr)))
+print('The Cross-validated MSE for boosted_lw_reg is : '+str(np.mean(mse_boosted_lwr)))
+print('The Cross-validated MSE for RandomForest is : '+str(np.mean(mse_rf)))
+```
+
+The Cross-validated MSE for lw_reg is : 22.723935874668843
+
+The Cross-validated MSE for boosted_lw_reg is : 20.938354282358254
+
+The Cross-validated MSE for RandomForest is :16.376944002440666
 
 # References:
 1. https://www.displayr.com/gradient-boosting-the-coolest-kid-on-the-machine-learning-block/
