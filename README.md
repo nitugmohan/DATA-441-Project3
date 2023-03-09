@@ -18,8 +18,4 @@ Main task: implement this idea in an algorithm and test it on real data sets.
 
 The algorithm follows the order of the structure below:
 
-<figure>
-<center>
-<img src='https://drive.google.com/uc?id=12sneA3vG0ES1OQBuznMtkPz91DGhDDGP'width='400px'/>
-<figcaption>Computational Diagram for Gradient Boosting</figcaption></center>
-</figure>
+<img src="GBDiagram.png" class="LR" alt=""> 
